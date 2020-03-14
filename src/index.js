@@ -7,4 +7,13 @@ import $ from'jquery';
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { Provider } from 'react-redux';
+import { Store } from './store';
+
+import * as serviceWorker from './serviceWorker';
+
+ReactDOM.render(<Provider store={Store}>
+  <App />
+</Provider>, document.getElementById('root'));
+
+serviceWorker.unregister()
