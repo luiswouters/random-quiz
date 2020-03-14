@@ -4,21 +4,30 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { clickButton } from '../actions';
 
+import axios from 'axios';
+
+const apiUrl = 'http://localhost:4000/api/questions';
+
 
 class Quiz extends React.Component {
+    constructor(props:Object){
+        super(props);
+    }
     state = {
         inputValue: ''
     }
     props = {
-        clickButton: Function, newValue: ''
+        clickButton: Function,
+        newValue: String
     }
     inputChange = (event:any) => {
         this.setState({
             inputValue: event.target.value
         })
     }
-    componentDidMount() {
 
+    componentDidMount() {
+        //this.fetchQuestions();
     }
     render() {
         const { clickButton, newValue } = this.props;
