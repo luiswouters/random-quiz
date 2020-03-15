@@ -15,7 +15,8 @@ interface Props {
 }
 
 interface State {
-    inputValue: any
+    inputValue: any,
+    questionList : [],
 }
 
 class Quiz extends React.Component<Props, State> {
@@ -26,7 +27,8 @@ class Quiz extends React.Component<Props, State> {
     }
 
     state: Readonly<State> = {
-        inputValue : ''
+        inputValue : '',
+        questionList : [],
     }
 
     inputChange = (event:any) => {
@@ -37,6 +39,7 @@ class Quiz extends React.Component<Props, State> {
 
     componentDidMount() {
         this.props.fetchQuestions();
+        console.log(this.state.questionList)
     }
     render() {
         const { clickButton, newValue } = this.props;
@@ -70,7 +73,8 @@ class Quiz extends React.Component<Props, State> {
     }
 }
 const mapStateToProps = (store:any) => ({
-    newValue: store.clickState.newValue
+    newValue: store.clickState.newValue,
+    questionList: store.fetchQuestionsState.questionList
 });
 
 export default connect(mapStateToProps, {fetchQuestions,clickButton})(Quiz);

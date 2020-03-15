@@ -1,13 +1,13 @@
-import { FETCH_QUESTIONS_REQUEST } from '../actions/actionTypes';
+import { FETCH_QUESTIONS_SUCCESS } from '../actions/actionTypes';
 const initialState = {
   newValue: 'x'
 };
 export const fetchQuestionsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_QUESTIONS_REQUEST:
+    case FETCH_QUESTIONS_SUCCESS:
       return {
         ...state,
-        newValue: action.newValue
+        questionList: action.payload.data.results
       };
     default:
       return state;

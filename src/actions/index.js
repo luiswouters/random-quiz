@@ -10,6 +10,7 @@ export const clickButtonSuccess = value => ({
 export const fetchQuestions = () => ({
   type: FETCH_QUESTIONS_REQUEST
 });
-export const fetchQuestionsSuccess = value => ({
-  type: FETCH_QUESTIONS_SUCCESS
+export const fetchQuestionsSuccess = ({data}) => ({
+  type: FETCH_QUESTIONS_SUCCESS,
+  payload: {data}
 });
