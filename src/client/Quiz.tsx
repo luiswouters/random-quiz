@@ -8,18 +8,25 @@ import axios from 'axios';
 
 const apiUrl = 'http://localhost:4000/api/questions';
 
+interface Props {
+    clickButton : any,
+    newValue: any
+}
 
-class Quiz extends React.Component {
-    constructor(props:Object){
-        super(props);
+interface State {
+    inputValue: any
+}
+
+class Quiz extends React.Component<Props, State> {
+    static defaultProps: Props = {
+        clickButton : null,
+        newValue : ''
     }
-    state = {
-        inputValue: ''
+
+    state: Readonly<State> = {
+        inputValue : ''
     }
-    props = {
-        clickButton: Function,
-        newValue: String
-    }
+
     inputChange = (event:any) => {
         this.setState({
             inputValue: event.target.value
