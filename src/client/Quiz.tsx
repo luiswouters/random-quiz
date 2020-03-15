@@ -1,34 +1,32 @@
 import * as React from 'react';
 import './Stylesheet.css'
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { fetchQuestions, clickButton } from '../actions';
-
-import axios from 'axios';
-
-const apiUrl = 'http://localhost:4000/api/questions';
+import Question from './Question';
 
 interface Props {
     fetchQuestions : any,
     clickButton : any,
-    newValue: any
+    newValue: any,
+    quizState: any,
+    questionList: any
 }
 
 interface State {
     inputValue: any,
-    questionList : [],
 }
 
 class Quiz extends React.Component<Props, State> {
     static defaultProps: Props = {
         fetchQuestions : [],
         clickButton : null,
-        newValue : ''
+        newValue : '',
+        quizState : 'initial',
+        questionList : [],
     }
 
     state: Readonly<State> = {
         inputValue : '',
-        questionList : [],
     }
 
     inputChange = (event:any) => {
@@ -39,15 +37,24 @@ class Quiz extends React.Component<Props, State> {
 
     componentDidMount() {
         this.props.fetchQuestions();
-        console.log(this.state.questionList)
+        console.log(this.props)
     }
     render() {
-        const { clickButton, newValue } = this.props;
+        const { quizState, questionList, clickButton, newValue } = this.props;
         const { inputValue } = this.state;
         return (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100%' }}>
+                { quizState === 'initial' &&
+                    <div>initial</div>
+                }
+                { quizState === 'question' &&
+                    <Question questionList = {questionList}/>
+                }
+                { quizState === 'result' &&
+                    <div>result</div>
+                }
                 <div style={{ width: '80%', margin: '0 auto' }} className='selft-align-center border p-5'>
-                    <h1 className='h5 mb-3'>What's the meaning of life?</h1>
+                    <h1 className='h5 mb-3'>What's the meaning of life? {quizState}</h1>
                     <label className='d-block'><input name="answer" type='radio' /> True</label>
                     <label className='d-block'><input name="answer" type='radio' /> True</label>
                     <label className='d-block'><input name="answer" type='radio' /> True</label>
@@ -74,7 +81,8 @@ class Quiz extends React.Component<Props, State> {
 }
 const mapStateToProps = (store:any) => ({
     newValue: store.clickState.newValue,
-    questionList: store.fetchQuestionsState.questionList
+    questionList: store.fetchQuestionsState.questionList,
+    quizState: store.fetchQuestionsState.quizState,
 });
 
 export default connect(mapStateToProps, {fetchQuestions,clickButton})(Quiz);
