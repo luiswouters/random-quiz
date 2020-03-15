@@ -2,13 +2,14 @@ import * as React from 'react';
 import './Stylesheet.css'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { clickButton } from '../actions';
+import { fetchQuestions, clickButton } from '../actions';
 
 import axios from 'axios';
 
 const apiUrl = 'http://localhost:4000/api/questions';
 
 interface Props {
+    fetchQuestions : any,
     clickButton : any,
     newValue: any
 }
@@ -19,6 +20,7 @@ interface State {
 
 class Quiz extends React.Component<Props, State> {
     static defaultProps: Props = {
+        fetchQuestions : [],
         clickButton : null,
         newValue : ''
     }
@@ -34,7 +36,7 @@ class Quiz extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        //this.fetchQuestions();
+        this.props.fetchQuestions();
     }
     render() {
         const { clickButton, newValue } = this.props;
@@ -70,6 +72,5 @@ class Quiz extends React.Component<Props, State> {
 const mapStateToProps = (store:any) => ({
     newValue: store.clickState.newValue
 });
-const mapDispatchToProps = (dispatch:any) => bindActionCreators({ clickButton }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
+export default connect(mapStateToProps, {fetchQuestions,clickButton})(Quiz);
