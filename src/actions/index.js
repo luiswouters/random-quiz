@@ -1,12 +1,4 @@
-import { FETCH_QUESTIONS_REQUEST, FETCH_QUESTIONS_SUCCESS, CLICK_UPDATE_VALUE, CLICK_UPDATE_SUCCESS, FINALIZE_QUIZ, RESET_QUIZ } from './actionTypes';
-export const clickButton = value => ({
-  type: CLICK_UPDATE_VALUE,
-  newValue: value
-});
-export const clickButtonSuccess = value => ({
-  type: CLICK_UPDATE_SUCCESS,
-  newValue: value
-});
+import { FETCH_QUESTIONS_REQUEST, FETCH_QUESTIONS_SUCCESS, FINALIZE_QUIZ, RESET_QUIZ } from './actionTypes';
 export const fetchQuestions = () => ({
   type: FETCH_QUESTIONS_REQUEST
 });

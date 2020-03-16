@@ -1,13 +1,11 @@
 import * as React from 'react';
 import './Stylesheet.css'
 import { connect } from 'react-redux';
-import { fetchQuestions, clickButton, finalizeQuiz, resetQuiz } from '../actions';
+import { fetchQuestions, finalizeQuiz, resetQuiz } from '../actions';
 import Question from './Question';
 
 interface Props {
     fetchQuestions : any,
-    clickButton : any,
-    newValue: any,
     quizState: any,
     questionList: any,
     finalizeQuiz: any,
@@ -26,8 +24,6 @@ interface State {
 class Quiz extends React.Component<Props, State> {
     static defaultProps: Props = {
         fetchQuestions : [],
-        clickButton : null,
-        newValue : '',
         quizState : 'initial',
         questionList : [],
         finalizeQuiz :  null,
@@ -53,7 +49,7 @@ class Quiz extends React.Component<Props, State> {
         this.props.fetchQuestions();
     }
     render() {
-        const { quizState, questionList, clickButton, newValue, finalizeQuiz, resetQuiz, finalResult, userCorrectAnswers,
+        const { quizState, questionList, finalizeQuiz, resetQuiz, finalResult, userCorrectAnswers,
             userWrongAnswers,
             userQuestionsAnswered,
             finalScore,
@@ -84,7 +80,6 @@ class Quiz extends React.Component<Props, State> {
     }
 }
 const mapStateToProps = (store:any) => ({
-    newValue: store.clickState.newValue,
     questionList: store.fetchQuestionsState.questionList,
     quizState: store.fetchQuestionsState.quizState,
     userCorrectAnswers: store.fetchQuestionsState.userCorrectAnswers,
@@ -93,4 +88,4 @@ const mapStateToProps = (store:any) => ({
     finalScore: store.fetchQuestionsState.finalScore,
 });
 
-export default connect(mapStateToProps, {fetchQuestions,clickButton,finalizeQuiz, resetQuiz})(Quiz);
+export default connect(mapStateToProps, {fetchQuestions,finalizeQuiz, resetQuiz})(Quiz);
