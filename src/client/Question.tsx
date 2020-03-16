@@ -124,7 +124,7 @@ class Question extends React.Component<Props, State> {
     }
     render(){
         const { currQuestion, userQuestions, userAnswer, possibleAnswers, correctAnswer, inputValue } = this.state;
-        const { mountQuiz, htmlDecode, submitAnswer, selectAnswer }  = this;
+        const { htmlDecode, submitAnswer, selectAnswer }  = this;
         return(
             <div style={{ width: '80%', margin: '0 auto' }} className='selft-align-center border p-5'>
 

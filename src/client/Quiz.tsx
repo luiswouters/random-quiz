@@ -49,12 +49,11 @@ class Quiz extends React.Component<Props, State> {
         this.props.fetchQuestions();
     }
     render() {
-        const { quizState, questionList, finalizeQuiz, resetQuiz, finalResult, userCorrectAnswers,
+        const { quizState, questionList, finalizeQuiz, resetQuiz, userCorrectAnswers,
             userWrongAnswers,
             userQuestionsAnswered,
             finalScore,
         } = this.props;
-        const { inputValue } = this.state;
         return (
             <div className="quiz" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100%' }}>
                 { quizState === 'initial' &&
