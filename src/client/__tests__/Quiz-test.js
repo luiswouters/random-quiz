@@ -6,17 +6,33 @@ import configureStore from 'redux-mock-store'
 
 describe('Quiz Component', () => {
 
-    const initialState = {output:10}
+    const initialState = {
+        fetchQuestionsState : {
+            questionList : [{
+                "category":"History",
+                "type":"multiple",
+                "difficulty":"easy",
+                "question":"The idea of Socialism was articulated and advanced by whom?",
+                "correct_answer":"Karl Marx",
+                "incorrect_answers":[
+                  "Vladimir Lenin",
+                  "Joseph Stalin",
+                  "Vladimir Putin"
+                ]
+              }]
+        }
+    }
     const mockStore = configureStore()
-    let store,wrapper
+    let store,container
 
     beforeEach(()=>{
         store = mockStore(initialState)
-        wrapper = mount( <Provider store={store}><ConnectedHome /></Provider> )
+        container = shallow(<Quiz store={store} />)
     })
  
     // make our assertion and what we expect to happen 
     it('should render without throwing an error', () => {
-      expect(shallow(<Quiz />).find('div.quiz').exists()).toBe(true)
+      expect(container.exists()).toBe(true)
     })
+    console.log(container);
 })
