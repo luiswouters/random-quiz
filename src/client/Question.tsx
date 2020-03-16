@@ -1,7 +1,10 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 interface Props {
     questionList: any,
+    quizState: any,
+    finalizeQuiz: any,
 }
 
 interface State {
@@ -20,6 +23,8 @@ interface State {
 class Question extends React.Component<Props, State> {
     static defaultProps: Props = {
         questionList : [],
+        quizState: '',
+        finalizeQuiz: null,
     }
     state: Readonly<State> = {
         userQuestions: [],
@@ -38,10 +43,8 @@ class Question extends React.Component<Props, State> {
     }
     getAnswers(question:any) {
         let answers:any = [];
-        console.log(question)
         if(question.type === 'multiple' || question.type === 'boolean'){
             answers.push(question.correct_answer, ...question.incorrect_answers);
-            console.log(answers)
         }
         if(question.type === 'any'){
             answers.push(question.correct_answer);
@@ -63,9 +66,47 @@ class Question extends React.Component<Props, State> {
         this.setState({ correctAnswer: correctAnswer});
     }
     submitAnswer(answered:any, answer:any, question:any, list:any){
-        console.log(answer === answered);
+        let correct = 0;
+        let wrong = 0;
+        let total = 0;
+        let final = 0;
+        if(answer === answered) {
+            correct = this.state.userCorrectAnswers + 1;
+            total = this.state.userQuestionsAnswered + 1;
+            wrong = this.state.userWrongAnswers;
+            final = (correct*100)/total;
+            this.setState((state, props) => (
+                {
+                //finalScore: ((state.userCorrectAnswers+1)*100)/state.userQuestionsAnswered + 1
+                finalScore: final
+            }));
+            this.setState((state, props) => ({
+                userCorrectAnswers: state.userCorrectAnswers + 1
+            }));
+        } else {
+            correct = this.state.userCorrectAnswers;
+            total = this.state.userQuestionsAnswered + 1;
+            wrong = this.state.userWrongAnswers + 1;
+            final = this.state.userCorrectAnswers > 0 ? (correct*100)/total : 0;
+            this.setState((state, props) => ({
+                finalScore: final
+            }));
+            this.setState((state, props) => ({
+                userWrongAnswers: wrong
+            }));
+        }
+        this.setState((state, props) => ({
+            inputValue: ''
+        }));
+        this.setState((state, props) => ({
+            userQuestionsAnswered: state.userQuestionsAnswered + 1
+        }));
         this.setState({ userAnswer: ''});
-        this.mountQuiz(list);
+        if(list.length > 0) {
+            this.mountQuiz(list);
+        } else {
+            this.props.finalizeQuiz({userQuestionsAnswered: total, userCorrectAnswers: correct, userWrongAnswers : wrong, finalScore: final});
+        }
     }
     htmlDecode(input:any){
         var e = document.createElement('div');
@@ -88,11 +129,10 @@ class Question extends React.Component<Props, State> {
             <div style={{ width: '80%', margin: '0 auto' }} className='selft-align-center border p-5'>
 
                 <h1 className='h5 mb-3'>{htmlDecode(currQuestion.question)}</h1>
-                {console.log(currQuestion)}
                 { currQuestion.type === 'multiple' &&
                     <div>
                         {possibleAnswers.map((answer:any, index:any) => 
-                            <div key={index}>{<label className='d-block'><input name="answer" type='radio' value="{answer}" onChange={selectAnswer.bind(this, answer)} checked={userAnswer === answer} /> {answer}</label>}</div>
+                            <div key={index}>{<label className='d-block'><input name="answer" type='radio' value="{answer}" onChange={selectAnswer.bind(this, answer)} checked={userAnswer === answer} /> {htmlDecode(answer)}</label>}</div>
                         )}
                     </div>
                 }
@@ -114,4 +154,8 @@ class Question extends React.Component<Props, State> {
     }
 }
 
-export default Question;
+const mapStateToProps = (store:any) => ({
+    quizState: store.finalizeQuizState.quizState,
+});
+
+export default connect(mapStateToProps, {})(Question);

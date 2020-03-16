@@ -5,7 +5,6 @@ import * as api from '../api';
 
 // create a generator function
 function* fetchData() {
-    console.log('oi');
     // try to make the api call
     try {
         // yield the api responsse into data
@@ -17,7 +16,6 @@ function* fetchData() {
 }
 function* watchFetchData() {
     // create watcher of fetchData function
-    console.log(1)
     yield takeEvery(FETCH_QUESTIONS_REQUEST, fetchData);
 }
 
