@@ -8,7 +8,7 @@
     "start:client": "react-scripts start",
     "start": "concurrently npm:start:client npm:start:server",
     "build": "react-scripts build",
-    "test": "jest"
+    "test": "jest --setupFiles ./src/setupTests.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -23,8 +23,12 @@
     "typescript": "^3.7.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
     "@types/react": "^16.9.11",
     "@types/react-redux": "^7.1.7",
+    "babel-jest": "^24.9.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "concurrently": "^5.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -32,6 +36,7 @@
     "jest-enzyme": "^7.1.2",
     "react-redux": "^7.2.0",
     "react-scripts": "^3.2.0",
+    "react-test-renderer": "^16.13.0",
     "redux": "^4.0.5"
   },
   "browserslist": {
@@ -44,6 +49,48 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "resolver": "jest-pnp-resolver",
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost",
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "^.+\\.module\\.(css|sass|scss)$",
+      "node_modules/(?!(reactjs-click-outside|@babel/runtime)/)"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
     ]
   }
 }

@@ -56,9 +56,9 @@ class Quiz extends React.Component<Props, State> {
         } = this.props;
         const { inputValue } = this.state;
         return (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100%' }}>
-                { quizState === 'question' &&
-                    <div>{React.version}</div>
+            <div className="quiz" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100%' }}>
+                { quizState === 'initial' &&
+                    <div>initial</div>
                 }
                 { quizState === 'question' &&
                     <Question questionList = {questionList} finalizeQuiz={finalizeQuiz}/>
